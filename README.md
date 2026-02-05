@@ -7,13 +7,37 @@
 
 #### Модуль utils
 Содержит классы Product и Category и их инициализацию
-1. class Product:
+1. Инициализация объекта товара:
 ```
 def __init__(self, name: str, description: str, price: float, quantity: int):
 ```
-2. class Category:
+2. Возврат цены товара:
+```
+@property
+    def price(self) -> float:
+```
+3. Установка новой цены товара:
+```
+@price.setter
+    def price(self, new_price: float) -> None:
+```
+4. Создание нового товара на основе словаря:
+```
+@classmethod
+    def new_product(cls, product_data: dict, products_list: list["Product"] | None = None) -> "Product":
+```
+5. Инициализация объекта категории:
 ```
 def __init__(self, name: str, description: str, products: list[Product]):
+```
+6. Возврат строкового представления всех товаров категории:
+```
+@property
+    def products(self) -> str:
+```
+7. Добавление товара в категорию:
+```
+ def add_product(self, product: Product) -> None:
 ```
 
 #### Модуль loader
