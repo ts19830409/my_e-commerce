@@ -37,37 +37,48 @@ def main_page() -> None:
     print("\n" + "=" * 40)
     print("ДЕМОНСТРАЦИЯ ДЗ")
     print("=" * 40)
-
-    # 1. Геттер products
+    
+    # 1. Геттер
     print("\n1. Геттер products (формат из ТЗ):")
     print(data[0].products)
-
-    # 2. add_product
+    
+    # 2. add_product (Задание 1)
     print("\n2. Метод add_product():")
     new_prod = Product("Новый товар", "Добавлен через add_product", 9999, 3)
     data[0].add_product(new_prod)
     print(f"Добавлен: {new_prod.name}")
-
+    
     # 3. new_product
     print("\n3. Класс-метод new_product():")
     prod_data = {"name": "Созданный", "description": "Через new_product", "price": 5000, "quantity": 2}
-    new_prod2 = Product.new_product(prod_data)
+    
+    
+    all_products = []
+    for category in data:
+        all_products.extend(category._Category__products)
+    
+    new_prod2 = Product.new_product(prod_data, all_products)  # ← ВТОРОЙ АРГУМЕНТ ДОБАВЛЕН
     print(f"Создан: {new_prod2.name}, цена: {new_prod2.price}")
-
+    
     # 4. Сеттер цены
     print("\n4. Сеттер цены (защита от ≤ 0):")
     test = Product("Тест", "", 1000, 1)
     print(f"Было: {test.price}")
     test.price = -500  # Сообщение об ошибке
     print(f"После -500: {test.price} (не изменилась)")
-
+    
     # 5. Проверка приватности
     print("\n5. Проверка приватного атрибута:")
     try:
         print(data[0].__products)
     except AttributeError:
         print("Приватный атрибут __products защищён")
-
+    
+    # 6. Демо понижения цены
+    print("\n6. Подтверждение понижения цены (доп. задание):")
+    print("   (Следом будет запрос 'Подтвердите (y/n):' - введи y или n)")
+    test_product = Product("Демо", "Для теста", 2000, 5)
+    test_product.price = 1500  # ← Вызовет input() запрос
 
 if __name__ == "__main__":
     main_page()
