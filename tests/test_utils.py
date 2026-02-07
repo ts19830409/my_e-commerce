@@ -1,6 +1,6 @@
 import pytest
 
-from src.utils import Category, Product
+from src.utils import Category, LawnGrass, Product, Smartphone
 
 
 def test_product_initialization(first_product):
@@ -177,17 +177,53 @@ def test_category_can_iterate():
     p2 = Product("Планшет", "", 70000.0, 3)
     category = Category("Электроника", "", [p1, p2])
 
-    # Просто проверяем что работает цикл for
     count = 0
     for product in category:
-        assert isinstance(product, Product)  # Возвращает объекты Product
+        assert isinstance(product, Product)
         count += 1
 
-    assert count == 2  # Должно быть 2 товара
+    assert count == 2
 
 
 def test_category_iteration_empty():
     """Тест пустой категории"""
     category = Category("Пустая", "", [])
-    products = list(category)  # Преобразуем в список
-    assert products == []  # Должен быть пустой список
+    products = list(category)
+    assert products == []
+
+
+def test_smartphone_has_correct_attributes():
+    """Тест, что у смартфона правильные атрибуты"""
+    phone = Smartphone("iPhone", "Телефон", 100000, 5, "A16", "15 Pro", "256GB", "Black")
+    assert phone.efficiency == "A16"
+    assert phone.model == "15 Pro"
+    assert phone.memory == "256GB"
+    assert phone.color == "Black"
+
+
+def test_lawngrass_has_correct_attributes():
+    """Тест, что у травы правильные атрибуты"""
+    grass = LawnGrass("Трава", "Газон", 5000, 10, "Россия", "14 дней", "Зелёный")
+    assert grass.country == "Россия"
+    assert grass.germination_period == "14 дней"
+    assert grass.color == "Зелёный"
+
+
+def test_cannot_add_different_classes():
+    """Тест, что нельзя складывать разные классы"""
+    phone = Smartphone("Телефон", "", 10000, 2, "Быстрый", "Модель", "128GB", "Чёрный")
+    grass = LawnGrass("Трава", "", 1000, 5, "RU", "10 дней", "Зелёный")
+
+    with pytest.raises(TypeError):
+        phone + grass
+
+
+def test_category_can_only_add_products():
+    """Тест, что в категорию можно добавлять только Product"""
+    category = Category("Тест", "", [])
+    product = Product("Товар", "", 1000, 1)
+
+    category.add_product(product)
+
+    with pytest.raises(TypeError):
+        category.add_product("не товар")

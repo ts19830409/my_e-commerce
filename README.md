@@ -60,6 +60,14 @@ def __iter__(self):
 def __next__(self):
     ...
 ```
+12. Создан дочерний класс Smartphone
+```
+class Smartphone(Product):
+```
+13. Создан дочерний класс LawnGrass
+```
+class LawnGrass(Product):
+```
 
 #### Модуль loader
 Содержит функции для работы с JSON-файлом:

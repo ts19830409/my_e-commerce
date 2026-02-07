@@ -55,7 +55,30 @@ class Product:
 
     def __add__(self, other):
         """Получение полной стоимости всех товаров"""
+        if type(self) is not type(other):
+            raise TypeError("Нельзя складывать товары разных типов")
         return (self.price * self.quantity) + (other.price * other.quantity)
+
+
+class Smartphone(Product):
+    """Создан дочерний класс Smartphone"""
+
+    def __init__(self, name, description, price, quantity, efficiency, model, memory, color):
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class LawnGrass(Product):
+    """Создан дочерний класс LawnGrass"""
+
+    def __init__(self, name, description, price, quantity, country, germination_period, color):
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color
 
 
 class Category:
@@ -84,6 +107,8 @@ class Category:
 
     def add_product(self, product: Product) -> None:
         """Добавление товара в категорию"""
+        if not isinstance(product, Product):
+            raise TypeError("Можно добавлять только объекты Product или его наследников")
         self.__products.append(product)
         Category.product_count += 1
 
