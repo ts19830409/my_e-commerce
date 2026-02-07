@@ -37,7 +37,28 @@ def __init__(self, name: str, description: str, products: list[Product]):
 ```
 7. Добавление товара в категорию:
 ```
- def add_product(self, product: Product) -> None:
+ def add_product(self, product: Product) -> None: 
+```
+8. Добавление строкового отображения для класса Product:
+```
+def __str__(self):
+```
+9. Получение полной стоимости всех товаров:
+```
+def __add__(self, other):
+```
+10. Строковое отображение для класса Category:
+```
+def __str__(self):
+```
+11. Реализация магических методов __iter__, __next__:
+```
+def __init__(self, category):
+    ...
+def __iter__(self):
+    ...
+def __next__(self):
+    ...
 ```
 
 #### Модуль loader

@@ -49,6 +49,14 @@ class Product:
 
         return cls(name, description, price, quantity)
 
+    def __str__(self):
+        """Добавление строкового отображения для класса Product"""
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other):
+        """Получение полной стоимости всех товаров"""
+        return (self.price * self.quantity) + (other.price * other.quantity)
+
 
 class Category:
     name: str
@@ -78,3 +86,35 @@ class Category:
         """Добавление товара в категорию"""
         self.__products.append(product)
         Category.product_count += 1
+
+    def __str__(self):
+        """Строковое отображение для класса Category"""
+        total_quantity = 0
+        for product in self.__products:
+            total_quantity += product.quantity
+
+        return f"{self.name}, количество продуктов: {total_quantity} шт."
+
+    def __iter__(self):
+        return CategoryIter(self)
+
+
+class CategoryIter:
+    """Реализация магических методов __iter__, __next__"""
+
+    def __init__(self, category):
+        self.category = category
+        self.index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        products = self.category._Category__products
+
+        if self.index < len(products):
+            product = products[self.index]
+            self.index += 1
+            return product
+
+        raise StopIteration
