@@ -60,13 +60,21 @@ def __iter__(self):
 def __next__(self):
     ...
 ```
-12. Создан дочерний класс Smartphone
+12. Создан дочерний класс Smartphone:
 ```
 class Smartphone(Product):
 ```
-13. Создан дочерний класс LawnGrass
+13. Создан дочерний класс LawnGrassЖ
 ```
 class LawnGrass(Product):
+```
+14. Создан абстрактный класс BaseProduct:
+```
+class BaseProduct(ABC):
+```
+15. Создан класс-миксин:
+```
+class ReprMixin:
 ```
 
 #### Модуль loader

@@ -1,6 +1,6 @@
 import pytest
 
-from src.utils import Category, LawnGrass, Product, Smartphone
+from src.utils import BaseProduct, Category, LawnGrass, Product, ReprMixin, Smartphone
 
 
 def test_product_initialization(first_product):
@@ -227,3 +227,38 @@ def test_category_can_only_add_products():
 
     with pytest.raises(TypeError):
         category.add_product("не товар")
+
+
+def test_baseproduct_is_abstract():
+    """Тест что BaseProduct - абстрактный класс (нельзя создать)"""
+    with pytest.raises(TypeError):
+        BaseProduct("Тест", "Описание", 100.0, 1)
+
+
+def test_product_implements_all_abstract_methods():
+    """Тест что Product реализует все абстрактные методы"""
+    product = Product("Тест", "Описание", 100.0, 1)
+    # Проверяем что все методы работают
+    assert product.name == "Тест"
+    assert product.price == 100.0
+    assert str(product) == "Тест, 100.0 руб. Остаток: 1 шт."
+    # __add__ тоже должен работать
+    assert product + product == 200.0
+
+
+def test_inheritance_chain():
+    """Тест цепочки наследования"""
+    assert issubclass(Product, BaseProduct)
+    assert issubclass(Product, ReprMixin)
+    assert issubclass(Smartphone, Product)
+    assert issubclass(LawnGrass, Product)
+
+
+def test_reprmixin_output(capsys):
+    """Тест что миксин выводит информацию при создании"""
+    _ = Product("Телефон", "Смартфон", 10000.0, 5)
+
+    captured = capsys.readouterr()
+    # Ищем часть вывода, а не точное совпадение
+    assert "Product('Телефон', 'Смартфон', 10000.0" in captured.out
+    assert "5" in captured.out  # 5 или 5.0

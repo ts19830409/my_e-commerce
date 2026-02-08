@@ -1,4 +1,42 @@
-class Product:
+from abc import ABC, abstractmethod
+
+
+class BaseProduct(ABC):
+    """Создан абстрактный класс BaseProduct"""
+
+    @abstractmethod
+    def __init__(self, name: str, description: str, price: float, quantity: int):
+        pass
+
+    @property
+    @abstractmethod
+    def price(self):
+        pass
+
+    @price.setter
+    @abstractmethod
+    def price(self, value):
+        pass
+
+    @abstractmethod
+    def __str__(self):
+        pass
+
+    @abstractmethod
+    def __add__(self, other):
+        pass
+
+
+class ReprMixin:
+    """Создан класс-миксин"""
+
+    def __init__(self, *args, **kwargs):
+        print(f"{self.__class__.__name__}{args}")
+        super().__init__(*args, **kwargs)
+
+
+class Product(ReprMixin, BaseProduct):
+
     name: str
     description: str
     __price: float
@@ -6,6 +44,7 @@ class Product:
 
     def __init__(self, name: str, description: str, price: float, quantity: int):
         """Инициализация объекта товара"""
+        super().__init__(name, description, price, quantity)
         self.name = name
         self.description = description
         self.__price = price
