@@ -44,6 +44,8 @@ class Product(ReprMixin, BaseProduct):
 
     def __init__(self, name: str, description: str, price: float, quantity: int):
         """Инициализация объекта товара"""
+        if quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
         super().__init__(name, description, price, quantity)
         self.name = name
         self.description = description
@@ -161,6 +163,17 @@ class Category:
 
     def __iter__(self):
         return CategoryIter(self)
+
+    def average_price(self):
+        """Метод, подсчитывающий средний ценник всех товаров"""
+
+        try:
+            if len(self.__products) == 0:
+                raise ValueError("Нет товаров в категории")
+            total_price = sum(product.price for product in self.__products)
+            return total_price / len(self.__products)
+        except ValueError:
+            return 0
 
 
 class CategoryIter:

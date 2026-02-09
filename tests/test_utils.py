@@ -164,13 +164,6 @@ def test_category_str_empty():
     assert str(category) == "Пустая, количество продуктов: 0 шт."
 
 
-def test_product_add_zero():
-    """Тест Product.__add__ с нулевым количеством"""
-    p1 = Product("A", "", 100.0, 0)
-    p2 = Product("B", "", 200.0, 5)
-    assert p1 + p2 == 1000.0  # 0 + 1000
-
-
 def test_category_can_iterate():
     """Базовый тест: можно ли перебирать категорию в цикле"""
     p1 = Product("Телефон", "", 50000.0, 5)
@@ -262,3 +255,29 @@ def test_reprmixin_output(capsys):
     # Ищем часть вывода, а не точное совпадение
     assert "Product('Телефон', 'Смартфон', 10000.0" in captured.out
     assert "5" in captured.out  # 5 или 5.0
+
+
+def test_product_zero_quantity():
+    """Нельзя создать товар с quantity=0"""
+    with pytest.raises(ValueError):
+        Product("Тест", "", 100.0, 0)
+
+
+def test_average_price_empty():
+    """Пустая категория → средняя цена = 0"""
+    category = Category("Пустая", "", [])
+    assert category.average_price() == 0
+
+
+def test_average_price_calculation():
+    """Правильный расчёт средней цены"""
+    p1 = Product("Т1", "", 100.0, 2)
+    p2 = Product("Т2", "", 200.0, 3)
+    category = Category("Тест", "", [p1, p2])
+    assert category.average_price() == 150.0
+
+
+def test_product_normal_creation():
+    """Товар с quantity>0 создаётся нормально"""
+    product = Product("Тест", "", 100.0, 5)
+    assert product.quantity == 5
